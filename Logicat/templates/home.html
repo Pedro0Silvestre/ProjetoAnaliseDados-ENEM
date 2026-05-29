@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block active_home %}active{% endblock %}
+
+{% block conteudo %}
+    <header class="dashboard-header">
+        <h1>Olá, Aluno! 👋</h1>
+        <p>Pronto para dominar as questões do ENEM hoje?</p>
+    </header>
+
+    <section class="metrics-container">
+        <div class="metric-card">
+            <span class="card-icon">🏆</span>
+            <h3>Maior Nota</h3>
+            <p class="metric-value">842.5</p>
+        </div>
+        <div class="metric-card">
+            <span class="card-icon">📝</span>
+            <h3>Questões (Semana)</h3>
+            <p class="metric-value">142</p>
+        </div>
+        <div class="metric-card shadow-green">
+            <span class="card-icon">✅</span>
+            <h3>Questões Certas</h3>
+            <p class="metric-value">118</p>
+        </div>
+        <div class="metric-card">
+            <span class="card-icon">⏱️</span>
+            <h3>Tempo Médio</h3>
+            <p class="metric-value">45 min/dia</p>
+        </div>
+    </section>
+
+    <section class="topics-section">
+        <h2>🎯 Missões de Estudo: Matemática</h2>
+        <p class="section-subtitle">Selecione um tópico para iniciar os simulados ilustrativos</p>
+        
+        <div class="topics-grid">
+            <div class="topic-card">
+                <div class="topic-info">
+                    <h4>Funções</h4>
+                    <p>Afim, Quadrática e Exponencial</p>
+                </div>
+                <span class="topic-badge">85% concluído</span>
+            </div>
+            <div class="topic-card">
+                <div class="topic-info">
+                    <h4>Razão e Proporção</h4>
+                    <p>Regra de três, escalas e porcentagem</p>
+                </div>
+                <span class="topic-badge">60% concluído</span>
+            </div>
+        </div>
+    </section>
+{% endblock %}

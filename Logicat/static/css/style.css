@@ -1,0 +1,233 @@
+/* Configurações Globais e fundo Bege */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f7f5f0 0%, #edeae0 100%);
+    color: #2b2b2b;
+    min-height: 100vh;
+}
+
+/* Centralização da tela de boas-vindas */
+.page-welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-container {
+    text-align: center;
+    max-width: 500px;
+}
+
+.logo {
+    max-width: 700px;
+    height: auto;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #61615a;
+    margin-bottom: 2rem;
+}
+
+/* Estilo único e perfeito para os seus botões verdes */
+.btn-green {
+    display: block;
+    width: 280px;
+    margin: 1rem auto 0 auto;
+    padding: 0.7rem 0;
+    background-color: #007a48;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none; /* Remove o sublinhado de link */
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 122, 72, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-green:hover {
+    background-color: #009658;
+    transform: scale(1.02);
+}
+
+/* ==========================================================================
+   ESTILOS DO DASHBOARD (HOME)
+   ========================================================================== */
+
+/* Layout Base em Grid para separar Sidebar do Conteúdo */
+.page-dashboard {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+/* 1. BARRA LATERAL (SIDEBAR) */
+.sidebar {
+    background-color: #f0f2f6;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #e2e8f0;
+}
+
+.sidebar-logo h2 {
+    color: #007a48;
+    margin: 0 0 2.5rem 0;
+    font-size: 1.6rem;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    display: block;
+    padding: 0.8rem 1rem;
+    color: #555555;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: rgba(0, 122, 72, 0.05);
+    color: #007a48;
+}
+
+/* Item Ativo (página onde o usuário está) */
+.nav-item.active {
+    background-color: #e6f2ed;
+    color: #007a48;
+    font-weight: bold;
+}
+
+/* 2. ÁREA DE CONTEÚDO PRINCIPAL */
+.main-content {
+    padding: 3rem;
+    overflow-y: auto;
+}
+
+.dashboard-header h1 {
+    font-size: 2.2rem;
+    color: #1c241e;
+    margin: 0 0 0.4rem 0;
+}
+
+.dashboard-header p {
+    color: #61615a;
+    margin: 0 0 2.5rem 0;
+    font-size: 1.1rem;
+}
+
+/* 3. GRID DE MÉTRICAS */
+.metrics-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e6e4dc;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-3px);
+}
+
+.card-icon {
+    font-size: 1.8rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.metric-card h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #61615a;
+    font-weight: 600;
+}
+
+.metric-value {
+    margin: 0.5rem 0 0 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1c241e;
+}
+
+/* Destaque sutil para o card de acertos */
+.shadow-green {
+    border-left: 4px solid #007a48;
+}
+
+/* 4. SEÇÃO DE TÓPICOS DE ESTUDO */
+.topics-section h2 {
+    font-size: 1.5rem;
+    color: #1c241e;
+    margin: 0 0 0.3rem 0;
+}
+
+.section-subtitle {
+    color: #61615a;
+    margin: 0 0 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.topics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.topic-card {
+    background: #ffffff;
+    padding: 1.2rem 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #e6e4dc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.topic-card:hover {
+    background-color: #faf9f5;
+}
+
+.topic-info h4 {
+    margin: 0 0 0.2rem 0;
+    font-size: 1.1rem;
+    color: #1c241e;
+}
+
+.topic-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #61615a;
+}
+
+/* Badges Gamificadas */
+.topic-badge {
+    background-color: #e6f2ed;
+    color: #007a48;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.topic-badge.alert {
+    background-color: #fdf2f2;
+    color: #de3b3b;
+}

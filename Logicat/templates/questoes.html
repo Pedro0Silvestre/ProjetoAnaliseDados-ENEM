@@ -1,0 +1,49 @@
+import streamlit as st
+
+# 1. CSS PARA A BARRA LATERAL E ESTILO DOS BOTÕES DE NAVEGAÇÃO
+st.markdown(
+    """
+    <style>
+    /* Fundo da Barra Lateral */
+    [data-testid="stSidebar"] {
+        background-color: #f0f2f6 !important;
+    }
+    
+    /* Fundo do Conteúdo Principal */
+    .stApp {
+        background: linear-gradient(135deg, #f7f5f0 0%, #edeae0 100%);
+        color: #2b2b2b;
+    }
+
+/* === MUDANÇA GLOBAL DOS LINKS DE NAVEGAÇÃO DA SIDEBAR === */
+    
+    /* 1. Altera a cor padrão de todos os textos de navegação para cinza escuro */
+    [data-testid="stSidebar"] ul li span,
+    [data-testid="stSidebar"] ul li p,
+    [data-testid="stSidebar"] button p {
+        color: #555555 !important;
+        font-weight: 500 !important;
+    }
+
+    /* 2. Alvo cirúrgico no elemento SELECIONADO (Ativo) */
+    /* O Streamlit envolve a página ativa em um container que podemos identificar pelo background nativo cinza claro dele */
+    [data-testid="stSidebar"] ul li div[style*="background-color"],
+    [data-testid="stSidebar"] ul li div[class*="active"],
+    [data-testid="stSidebar"] button[tabindex="0"] {
+        background-color: #e6f2ed !important; /* Seu verde claro de fundo */
+        border-radius: 8px !important;
+    }
+
+    /* Força o texto e os ícones de dentro do elemento ativo a ficarem com o seu verde principal */
+    [data-testid="stSidebar"] ul li div[style*="background-color"] span,
+    [data-testid="stSidebar"] ul li div[style*="background-color"] p,
+    [data-testid="stSidebar"] ul li div[class*="active"] p,
+    [data-testid="stSidebar"] button[tabindex="0"] p {
+        color: #007a48 !important; /* Seu verde principal no texto */
+        font-weight: bold !important;
+    }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
