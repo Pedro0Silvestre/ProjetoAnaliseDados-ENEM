@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block titulo %}Questão {{ questao.title }}{% endblock %}
+
+{% block conteudo %}
+<style>
+    .box-questao {
+        background: #ffffff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        border: 1px solid #e6e4dc;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.02);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .enunciado {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #2b2b2b;
+        margin-bottom: 1.5rem;
+        white-space: pre-wrap;
+    }
+    .questao-imagem {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1.5rem auto;
+        border-radius: 6px;
+    }
+    .alternativas-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    /* Estilização das alternativas como botões clicáveis */
+    .btn-alternativa {
+        width: 100%;
+        text-align: left;
+        padding: 1.2rem;
+        border: 1px solid #e6e4dc;
+        border-radius: 8px;
+        background: #faf9f5;
+        font-size: 1rem;
+        font-family: inherit;
+        color: #2b2b2b;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .btn-alternativa:hover:not([disabled]) {
+        background: #e6f2ed;
+        border-color: #007a48;
+    }
+    /* Cores de feedback do exercício */
+    .btn-alternativa.correta {
+        background-color: #e6f4ea !important;
+        border-color: #137333 !important;
+        color: #137333 !important;
+        font-weight: bold;
+    }
+    .btn-alternativa.errada {
+        background-color: #fce8e6 !important;
+        border-color: #c5221f !important;
+        color: #c5221f !important;
+    }
+    .status-mensagem {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        display: none;
+    }
+</style>
+
+<div class="box-questao">
+    <span class="topic-badge" style="margin-bottom: 1rem; display: inline-block;">ENEM {{ questao.year }}</span>
+    <h2>Questão {{ questao.title }}</h2>
+    <hr style="border: 0; border-top: 1px solid #e6e4dc; margin: 1.5rem 0;">
+    
+    <div class="enunciado">
+        {{ questao.context }}
+    </div>
+
+    {% if questao.imagem %}
+        <img src="{{ questao.imagem }}" alt="Ilustração da Questão" class="questao-imagem">
+    {% endif %}
+
+    <div class="alternativas-container" id="containerOpcoes">
+        {% if questao.alternatives %}
+            {% for alt in questao.alternatives %}
+                <button class="btn-alternativa" 
+                        data-correct="{{ 'true' if alt.isCorrect else 'false' }}"
+                        onclick="verificarResposta(this)">
+                    <strong>{{ alt.letter }})</strong> {{ alt.text }}
+                </button>
+            {% endfor %}
+        {% else %}
+            <p style="color: #61615a;">Nenhuma alternativa mapeada para esta questão.</p>
+        {% endif %}
+    </div>
+
+    <div id="feedbackTexto" class="status-mensagem"></div>
+    
+    <div style="margin-top: 2.5rem; display: flex; gap: 1rem;">
+        <a href="/analises?ano={{ questao.year }}" class="btn-green" style="width: 200px; text-align: center; margin: 0;">Voltar para Lista</a>
+    </div>
+</div>
+
+<script>
+function verificarResposta(botaoClicado) {
+    const container = document.getElementById('containerOpcoes');
+    const botoes = container.getElementsByClassName('btn-alternativa');
+    const feedback = document.getElementById('feedbackTexto');
+    
+    const ehCorreta = botaoClicado.getAttribute('data-correct') === 'true';
+    
+    // Desabilita todos os botões após o primeiro clique para o usuário não burlar o teste
+    for (let btn of botoes) {
+        btn.disabled = true;
+        // Se for a alternativa correta da questão, pinta de verde de qualquer forma
+        if (btn.getAttribute('data-correct') === 'true') {
+            btn.classList.add('correta');
+        }
+    }
+    
+    // Se o usuário errou, pinta o botão clicado de vermelho
+    if (ehCorreta) {
+        feedback.innerHTML = "✅ Resposta Correta! Muito bem.";
+        feedback.style.color = "#137333";
+    } else {
+        botaoClicado.classList.add('errada');
+        feedback.innerHTML = "❌ Resposta Incorreta. Tente analisar os dados novamente!";
+        feedback.style.color = "#c5221f";
+    }
+    
+    feedback.style.display = "block";
+}
+</script>
+{% endblock %}

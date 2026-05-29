@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block titulo %}Visão Geral{% endblock %}
+
+{% block active_graficos %}active{% endblock %}
+
+{% block conteudo %}
+<style>
+    .graphics-container {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .main-chart-box {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #e6e4dc;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.02);
+    }
+    .bottom-charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 2rem;
+    }
+    .sub-chart-box {
+        background: #ffffff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid #e6e4dc;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.02);
+    }
+    .chart-title-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    .chart-title-container h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #1c241e;
+        font-weight: 600;
+    }
+    .btn-export {
+        background: transparent;
+        border: 1px solid #e6e4dc;
+        padding: 0.3rem 0.8rem;
+        border-radius: 6px;
+        color: #007a48;
+        font-size: 0.85rem;
+        cursor: pointer;
+    }
+</style>
+
+<div class="graphics-container">
+    
+    <div class="main-chart-box">
+        <div class="chart-title-container">
+            <h3>Assuntos por ano</h3>
+            <button class="btn-export">Exportar</button>
+        </div>
+        <canvas id="chartAnos" style="max-height: 300px;"></canvas>
+    </div>
+
+    <div class="bottom-charts-grid">
+        
+        <div class="sub-chart-box">
+            <div class="chart-title-container">
+                <h3>Distribuição por eixos</h3>
+                <button class="btn-export">Exportar</button>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; max-height: 250px;">
+                <canvas id="chartEixos"></canvas>
+            </div>
+        </div>
+
+        <div class="sub-chart-box">
+            <div class="chart-title-container">
+                <h3>Dificuldade</h3>
+                <button class="btn-export">Exportar</button>
+            </div>
+            <canvas id="chartDificuldadeLinhas" style="max-height: 250px;"></canvas>
+        </div>
+        
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Configurações Globais de Cores Baseadas na Imagem
+    const VERDE_ESCURO = '#004d26';
+    const VERDE_PRINCIPAL = '#007a48';
+    const VERDE_CLARO = '#70db93';
+    const AMARELO_LOGICAT = '#d4af37';
+
+    // --- Gráfico 1: Barras Verticais (Assuntos por Ano) ---
+    const ctxAnos = document.getElementById('chartAnos').getContext('2d');
+    new Chart(ctxAnos, {
+        type: 'bar',
+        data: {
+            labels: {{ anos | tojson }},
+            datasets: [{
+                label: 'Questões',
+                data: {{ anos_valores | tojson }},
+                backgroundColor: VERDE_PRINCIPAL,
+                barPercentage: 0.4,
+                borderRadius: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // --- Gráfico 2: Distribuição por Eixos (Rosca com miolo largo) ---
+    const ctxEixos = document.getElementById('chartEixos').getContext('2d');
+    new Chart(ctxEixos, {
+        type: 'doughnut',
+        data: {
+            labels: {{ labels_eixos | tojson }},
+            datasets: [{
+                data: {{ valores_eixos | tojson }},
+                backgroundColor: [VERDE_ESCURO, VERDE_PRINCIPAL, VERDE_CLARO, AMARELO_LOGICAT],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '75%', // Alarga o miolo interno da rosca para ficar idêntico ao modelo
+            plugins: {
+                legend: { position: 'bottom', labels: { boxWidth: 12 } }
+            }
+        }
+    });
+
+    // --- Gráfico 3: Dificuldade (Gráfico de Linha Dupla baseado no modelo) ---
+    const ctxDif = document.getElementById('chartDificuldadeLinhas').getContext('2d');
+    new Chart(ctxDif, {
+        type: 'line',
+        data: {
+            labels: {{ anos | tojson }}, // Usa a linha do tempo de anos para a evolução
+            datasets: [
+                {
+                    label: 'Métricas Atuais',
+                    data: {{ anos_valores | tojson }}, // Renderiza os dados progressivos
+                    borderColor: VERDE_ESCURO,
+                    backgroundColor: 'transparent',
+                    tension: 0.3,
+                    borderWidth: 2
+                },
+                {
+                    label: 'Média de Acertos',
+                    data: {{ anos_valores | tojson }}.map(v => v * 0.85), // Simulação de segunda linha (amarela)
+                    borderColor: AMARELO_LOGICAT,
+                    backgroundColor: 'transparent',
+                    tension: 0.3,
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { boxWidth: 12 } }
+            },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+</script>
+{% endblock %}

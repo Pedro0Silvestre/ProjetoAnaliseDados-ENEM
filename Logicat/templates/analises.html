@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block titulo %}Análises por Ano{% endblock %}
+{% block active_analises %}active{% endblock %}
+
+{% block conteudo %}
+<style>
+    .ano-selector {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+    .btn-ano {
+        padding: 0.5rem 1rem;
+        border: 1px solid #e6e4dc;
+        background: #ffffff;
+        color: #555555;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-ano.ativo, .btn-ano:hover {
+        background-color: #e6f2ed;
+        color: #007a48;
+        border-color: #007a48;
+        font-weight: bold;
+    }
+    .questoes-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .questao-item-card {
+        background: #ffffff;
+        padding: 1.2rem;
+        border-radius: 10px;
+        border: 1px solid #e6e4dc;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .questao-item-card:hover {
+        transform: translateY(-2px);
+        border-color: #007a48;
+    }
+    .questao-titulo {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #1c241e;
+    }
+</style>
+
+<header class="dashboard-header">
+    <h1>Filtro de Questões</h1>
+    <p>Selecione o ano do exame para listar e resolver os exercícios cadastrados na base.</p>
+</header>
+
+<div class="ano-selector">
+    {% for ano in todos_anos %}
+        <a href="/analises?ano={{ ano }}" class="btn-ano {% if ano == ano_selecionado %}ativo{% endif %}">
+            ENEM {{ ano }}
+        </a>
+    {% endfor %}
+</div>
+
+<div class="questoes-lista">
+    {% if ano_selecionado %}
+        <h3>Questões encontradas para o ano {{ ano_selecionado }}</h3>
+        {% if questoes %}
+            {% for q in questoes %}
+                <a href="/questao/{{ ano_selecionado }}/{{ q.id }}" class="questao-item-card">
+                    <div>
+                        <span class="questao-titulo">{{ q.title }}</span>
+                        <p style="margin: 0.3rem 0 0 0; font-size: 0.85rem; color: #61615a;">Tópico: {{ q.tema }}</p>
+                    </div>
+                    <span class="topic-badge">Resolver 📝</span>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p>Nenhuma questão processada para este ano.</p>
+        {% endif %}
+    {% else %}
+        <p style="color: #61615a;">💡 Clique em um dos anos acima para exibir a lista de questões disponíveis.</p>
+    {% endif %}
+</div>
+{% endblock %}
